@@ -76,7 +76,7 @@ class Spider:
                 # print "将网页存储到: "+self.host+"目录下"
                 if (os.path.isdir(str(self.host))) == False:
                     os.mkdir(str(self.host))
-                fileurl = self.url
+                fileurl = self.req.url
                 fileurl = fileurl.replace('/', '_')
                 fileurl = self.host + "/" + fileurl
                 file = open(fileurl, "w")
@@ -112,7 +112,9 @@ class Spider:
             if self.pa(newurl) == False:
                 print "无法访问 这个: " + newurl
                 continue
-        print "我靠!列队空了~~爬完了, 列队大小: %d" % self.q.qsize()
+            if self.q.empty():
+                print "我靠!列队空了~~爬完了, 列队大小: %d" % self.q.qsize()
+                break
 
     def isInQ(self, url):
         file = open("res.txt", "r")
