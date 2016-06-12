@@ -27,7 +27,7 @@ class Spider:
 
     def setTarget(self):
         url = raw_input("目标网站:(比如: http://www.baidu.com) : ")
-        canOut = raw_input("是否要爬出站外:[y/n] 默认是 n, 除非你的硬盘够大,否则选n ")
+        canOut = raw_input("是否要爬出站外:[y/n] 默认是 n, 除非你的硬盘和内存够大,否则选n ")
         self.searchword = raw_input("请输入感兴趣的内容: ")
         self.wordCount = raw_input("当感兴趣的内容在同一页面出现多少,就下载页面,默认:10000次,相当于不储存: ")
         url = url.strip()
