@@ -80,7 +80,7 @@ class Spider:
                 fileurl = fileurl.replace('/', '_')
                 fileurl = self.host + "/" + fileurl
                 file = open(fileurl, "w")
-                print "保存了文件: " + fileurl
+                print "保存了文件: " + str(fileurl)
                 file.write(r)
                 file.close()
         lastpos = 0;
@@ -103,8 +103,11 @@ class Spider:
         while self.q.not_empty:
             newurl = self.q.get()
             newurl = str(newurl)
-            if (newurl.startswith(str(self.limithead)) == False and newurl.startswith(str(self.limitheadssl)) == False):
-                print "无法解析的地址 或者 使用了一个外部网址: " + newurl
+            if (newurl.startswith(str("http")) == False):
+                print "无法解析的地址 : " + newurl
+                continue
+            if (self.host != self.getHost(newurl)):
+                print "不让跑出站点哦!!: " + newurl
                 continue
             if (self.isInQ(newurl) == True):
                 print "重复的 url 跳过这个: " + newurl
