@@ -66,23 +66,8 @@ class Spider:
         r = self.req.content
         word = str(word)
 
-        if (r.find(word)):
-            rc = r.count(word)
-            file = open("res.txt", "a+")
-            file.write(self.req.url + " " + str(rc) + "\n")
-            print "在 %s 一共抓到 %d 次 << %s >>" % (str(self.req.url), rc, word)
-            file.close();
-            if (rc >= int(self.wordCount)):
-                # print "将网页存储到: "+self.host+"目录下"
-                if (os.path.isdir(str(self.host))) == False:
-                    os.mkdir(str(self.host))
-                fileurl = self.req.url
-                fileurl = fileurl.replace('/', '_')
-                fileurl = self.host + "/" + fileurl
-                file = open(fileurl, "w")
-                print "保存了文件: " + str(fileurl)
-                file.write(r)
-                file.close()
+        self.cun(r,word)
+
         lastpos = 0;
         while (True):
             pos = r.find("href=\"", lastpos)
@@ -118,6 +103,25 @@ class Spider:
             if self.q.empty():
                 print "我靠!列队空了~~爬完了, 列队大小: %d" % self.q.qsize()
                 break
+
+    def cun(self,r,word):
+        if (r.find(word)):
+            rc = r.count(word)
+            file = open("res.txt", "a+")
+            file.write(self.req.url + " " + str(rc) + "\n")
+            print "在 %s 一共抓到 %d 次 << %s >>" % (str(self.req.url), rc, word)
+            file.close();
+            if (rc >= int(self.wordCount)):
+                # print "将网页存储到: "+self.host+"目录下"
+                if (os.path.isdir(str(self.host))) == False:
+                    os.mkdir(str(self.host))
+                fileurl = self.req.url
+                fileurl = fileurl.replace('/', '_')
+                fileurl = self.host + "/" + fileurl
+                file = open(fileurl, "w")
+                print "保存了文件: " + str(fileurl)
+                file.write(r)
+                file.close()
 
     def isInQ(self, url):
         file = open("res.txt", "r")
