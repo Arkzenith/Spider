@@ -2,14 +2,21 @@
 # coding=utf-8
 
 import requests
+import codecs
 import Queue
 import os
+
+import sys
+reload(sys)
+sys.setdefaultencoding( "utf-8" )
+
 import json
 
 
 class Spider:
     """Spider 爬虫: 输入目标网站, 和感兴趣的内容,然后就开始爬!
         可以设定要搜索的信息, 然后保存到本地
+        使用 python 2.7.10
     """
 
     url = ''
@@ -68,8 +75,8 @@ class Spider:
 
         wordtuple = word.split()
 
-        for i in range(0,len(wordtuple)):
-            self.cun(r,wordtuple[i])
+        for i in range(0, len(wordtuple)):
+            self.cun(r, wordtuple[i])
 
         lastpos = 0;
         while (True):
@@ -107,11 +114,11 @@ class Spider:
                 print "我靠!列队空了~~爬完了, 列队大小: %d" % self.q.qsize()
                 break
 
-    def cun(self,r,word):
+    def cun(self, r, word):
         if (r.find(word)):
             rc = r.count(word)
-            file = open("res.txt", "a+")
-            file.write(self.req.url + " " + str(rc) +" "+ word+ "\n")
+            file = open("res.txt", "a")
+            file.write(self.req.url + " " + str(rc) + " " + word + "\n")
             print "在 %s 一共抓到 %d 次 << %s >>" % (str(self.req.url), rc, word)
             file.close();
             if (rc >= int(self.wordCount)):
