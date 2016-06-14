@@ -66,7 +66,10 @@ class Spider:
         r = self.req.content
         word = str(word)
 
-        self.cun(r,word)
+        wordtuple = word.split()
+
+        for i in range(0,len(wordtuple)):
+            self.cun(r,wordtuple[i])
 
         lastpos = 0;
         while (True):
@@ -108,7 +111,7 @@ class Spider:
         if (r.find(word)):
             rc = r.count(word)
             file = open("res.txt", "a+")
-            file.write(self.req.url + " " + str(rc) + "\n")
+            file.write(self.req.url + " " + str(rc) +" "+ word+ "\n")
             print "在 %s 一共抓到 %d 次 << %s >>" % (str(self.req.url), rc, word)
             file.close();
             if (rc >= int(self.wordCount)):
@@ -118,10 +121,13 @@ class Spider:
                 fileurl = self.req.url
                 fileurl = fileurl.replace('/', '_')
                 fileurl = self.host + "/" + fileurl
-                file = open(fileurl, "w")
-                print "保存了文件: " + str(fileurl)
-                file.write(r)
-                file.close()
+                if (os.path.exists(fileurl)):
+                    print str(fileurl) + "已经保存过了"
+                else:
+                    file = open(fileurl, "w")
+                    print "保存了文件: " + str(fileurl)
+                    file.write(r)
+                    file.close()
 
     def isInQ(self, url):
         file = open("res.txt", "r")
